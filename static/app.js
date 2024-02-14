@@ -1,7 +1,11 @@
 // Cambia la URL por la ruta real de tu API
-const apiUrl = "http://127.0.0.1:3100/elegion"; 
-userId = 1
+// Obtener la URL base actual
+const baseUrl = window.location.origin;
 
+// URL de la API relativa a la base URL
+const apiUrl = `${baseUrl}/elegion`;
+userId = 1
+console.log(baseUrl)
 // Nueva función para realizar el inicio de sesión
 async function login() {
     const username = document.getElementById('username').value;
