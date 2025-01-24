@@ -1,4 +1,5 @@
-const apiUrl = `http://localhost:3100/elegion`;
+const baseUrl = window.location.origin;
+const apiUrl =  `${baseUrl}/elegion`;
 
 document.getElementById('login-button').addEventListener('click', async () => {
     const username = document.getElementById('username').value;

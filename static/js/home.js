@@ -1,4 +1,5 @@
-const apiUrl = `http://localhost:3100/elegion`;
+const baseUrl = window.location.origin;
+const apiUrl =  `${baseUrl}/elegion`;
 // Parse URL query parameters
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
