@@ -15,10 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    const jsonString = atob(idCliente);
+    const userData = JSON.parse(jsonString);
+
     // Guardar idCliente en localStorage
-    localStorage.setItem('idCliente', idCliente);
-    console.log(idCliente)
-    fetch(`${apiUrl}/getSaldo/${idCliente}`)
+    localStorage.setItem('idCliente', userData.userId);
+    fetch(`${apiUrl}/getSaldo/${userData.userId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('saldo-pesos').textContent = `$ ${data.saldoPesos}`;

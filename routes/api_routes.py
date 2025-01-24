@@ -21,7 +21,7 @@ async def login(l: LoginRequest):
     canLog = q.login(l.user, l.passw)
 
     if canLog != -1:
-        return canLog
+        return {"userId": canLog}
     else:
         return 'Usuario invalido o password incorrecta'
 

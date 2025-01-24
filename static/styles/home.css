@@ -25,14 +25,22 @@ body {
 }
 
 .logout-icon {
-    font-size: 24px;
-    cursor: pointer;
+    width: 50px; /* Ancho fijo */
+    height: 50px; /* Alto fijo */
+    display: flex; /* Habilita el uso de flexbox */
+    align-items: center; /* Centra verticalmente el ícono */
+    justify-content: center; /* Centra horizontalmente el ícono */
+    background-color: #0099ff; /* Color de fondo */
+    color: #ffffff; /* Color del ícono */
+    border: none; /* Sin bordes */
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    font-size: 24px; /* Tamaño del ícono */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s ease; /* Transición al pasar el mouse */
 }
 
-.logout-icon::before {
-    content: "\f08b"; /* Icono de logout */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+.logout-icon:hover {
+    background-color: #005bb5; /* Cambia el color al pasar el mouse */
 }
 
 .accounts {

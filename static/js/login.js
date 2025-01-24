@@ -15,8 +15,6 @@ document.getElementById('login-button').addEventListener('click', async () => {
         passw: password
     };
 
-    console.log('Ready to send to API:', loginData);
-
     try {
         const response = await fetch(`${apiUrl}/login`, {
             method: 'POST',
@@ -26,9 +24,14 @@ document.getElementById('login-button').addEventListener('click', async () => {
             body: JSON.stringify(loginData),
         });
 
-        userId = await response.json();
-        console.log(userId)
-        window.location.href = `/elegion/account?idCliente=${userId}`;
+        data = await response.json();
+        console.log(data)
+        // Generar un hash del JSON (Base64)
+        const jsonString = JSON.stringify(data);
+        const hash = btoa(jsonString); // Codifica en Base64
+        console.log(hash)
+        // Redirigir a /account con el hash
+        window.location.href = `/elegion/account?idCliente=${hash}`;
         
     } catch (error) {
         console.error('Error al realizar el inicio de sesión:', error);
