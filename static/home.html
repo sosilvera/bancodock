@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegion Bank - Home</title>
+    <link rel="stylesheet" href="/static/styles/home.css">
+    <script defer src="/static/js/home.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="home-container">
+        <header class="home-header">
+            <div class="menu-icon">☰</div>
+            <h1>Elegion Bank</h1>
+            <button id="logout-button" class="logout-icon">⭘</button>
+        </header>
+        <main>
+            <div class="accounts">
+                <div class="account-card">
+                    <h3>Cuenta 001$</h3>
+                    <p id="saldo-pesos">$ 0</p>
+                </div>
+                <div class="account-card">
+                    <h3>Cuenta 002USD</h3>
+                    <p id="saldo-dolar">USD 0</p>
+                </div>
+            </div>
+            <div class="button-group">
+                <button onclick="navigateTo('/elegion/movimientos')">Movimientos</button>
+                <button onclick="navigateTo('/elegion/tarjetas')">Tarjetas</button>
+                <button onclick="navigateTo('/elegion/transferir')">Transferir</button>
+                <button onclick="navigateTo('/elegion/prestamo')">Préstamos</button>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
