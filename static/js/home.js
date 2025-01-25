@@ -47,7 +47,7 @@ document.getElementById('logout-button').addEventListener('click', () => {
 
 
 // Evento para el botón de movimientos
-document.getElementById('prestamos-button').addEventListener('click', async () => {
+document.getElementById('movimientos-button').addEventListener('click', async () => {
     try {
         const userId = localStorage.getItem('idCliente')
         // Llamada al servicio de movimientos
