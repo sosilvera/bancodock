@@ -1,3 +1,5 @@
+import { renderMovimientosTabla } from './tablaMovimientos.js';
+
 const baseUrl = window.location.origin;
 const apiUrl =  `${baseUrl}/elegion`;
 // Parse URL query parameters
@@ -43,3 +45,23 @@ document.getElementById('logout-button').addEventListener('click', () => {
         .catch(err => console.error('Error logging out:', err));
 });
 
+
+// Evento para el botón de movimientos
+document.getElementById('prestamos-button').addEventListener('click', async () => {
+    try {
+        const userId = localStorage.getItem('idCliente')
+        // Llamada al servicio de movimientos
+        const response = await fetch(`${apiUrl}/getMovimientos/${userId}`); // Reemplaza '1' con el userId si es dinámico
+        if (!response.ok) {
+            throw new Error('Error al obtener movimientos');
+        }
+
+        const data = await response.json(); // Obtenemos la lista de movimientos
+        const movimientos = data.listaMovimientos;
+
+        // Renderizar la tabla usando la función importada
+        renderMovimientosTabla(movimientos);
+    } catch (error) {
+        console.error('Error al obtener movimientos:', error);
+    }
+});

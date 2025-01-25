@@ -100,3 +100,38 @@ button {
 button:hover {
     background-color: #005bb5;
 }
+
+/* Estilos para la tabla de movimientos */
+#table-container {
+    margin-top: 20px;
+    overflow-x: auto; /* Desplazamiento horizontal si la tabla es muy ancha */
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movements-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.movements-table th, .movements-table td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.movements-table th {
+    background-color: #0073e6;
+    color: white;
+    font-weight: bold;
+}
+
+.movements-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.movements-table tr:hover {
+    background-color: #e6f7ff;
+}
