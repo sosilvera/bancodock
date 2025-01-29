@@ -1,4 +1,5 @@
 import { renderMovimientosTabla } from './tablaMovimientos.js';
+import { renderTarjetasTabla } from './tablaTarjetas.js';
 
 const baseUrl = window.location.origin;
 const apiUrl =  `${baseUrl}/elegion`;
@@ -51,7 +52,7 @@ document.getElementById('movimientos-button').addEventListener('click', async ()
     try {
         const userId = localStorage.getItem('idCliente')
         // Llamada al servicio de movimientos
-        const response = await fetch(`${apiUrl}/getMovimientos/${userId}`); // Reemplaza '1' con el userId si es dinámico
+        const response = await fetch(`${apiUrl}/getMovimientos/${userId}`);
         if (!response.ok) {
             throw new Error('Error al obtener movimientos');
         }
@@ -63,5 +64,25 @@ document.getElementById('movimientos-button').addEventListener('click', async ()
         renderMovimientosTabla(movimientos);
     } catch (error) {
         console.error('Error al obtener movimientos:', error);
+    }
+});
+
+
+// Evento para el botón de tarjetas
+document.getElementById('tarjetas-button').addEventListener('click', async () => {
+    try {
+        const userId = localStorage.getItem('idCliente')
+        // Llamada al servicio de movimientos
+        const response = await fetch(`${apiUrl}/getTarjetas/${userId}`);
+        if (!response.ok) {
+            throw new Error('Error al obtener tarjetas');
+        }
+
+        const data = await response.json(); // Obtenemos la lista de tarjetas
+
+        // Renderizar la tabla usando la función importada
+        renderTarjetasTabla(data);
+    } catch (error) {
+        console.error('Error al obtener tarjetas:', error);
     }
 });

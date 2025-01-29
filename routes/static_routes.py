@@ -15,3 +15,7 @@ async def read_login():
 @router.get("/account")
 async def read_account():
     return FileResponse("static/home.html")
+
+@router.get("/transfer")
+async def read_transfer():
+    return FileResponse("static/transferencia.html")
