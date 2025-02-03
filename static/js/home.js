@@ -7,6 +7,7 @@ const apiUrl =  `${baseUrl}/elegion`;
 // Load account balances
 document.addEventListener('DOMContentLoaded', () => {
     const userId = localStorage.getItem('idCliente');
+    console.log(userId)
     if (!userId) {
         alert('No se encontró un ID de cliente. Redirigiendo a la página de login.');
         window.location.href = '/elegion/login';
