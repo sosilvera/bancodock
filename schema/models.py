@@ -50,12 +50,12 @@ class MovimientosCliente(Base):
     idMovimiento = Column(Integer, primary_key=True)
     idCliente = Column(Integer, ForeignKey('Cliente.idCliente'))
     idTipoMovimiento = Column(String(50), ForeignKey('TipoMovimiento.idTipoMovimiento'))
-    Descripcion = Column(String(50))
+    Descripcion = Column(String(100))
     Monto = Column(DECIMAL(10, 2))
 
 class TipoMovimiento(Base):
     __tablename__ = 'TipoMovimiento'
-    idTipoMovimiento = Column(Integer, primary_key=True)
+    idTipoMovimiento = Column(Integer, primary_key=True, autoincrement=True)
     Descripcion = Column(String(255))
     Operacion = Column(String(50))
     MovimientosCliente = relationship('MovimientosCliente', backref="TipoMovimiento", overlaps='TipoMovimiento,MovimientosCliente')

@@ -195,6 +195,7 @@ button:hover {
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px; /* Añade un margen superior */
 }
 
 .confirm-button:hover {
@@ -205,4 +206,54 @@ button:hover {
 ::placeholder {
     color: #999;
     opacity: 1; /* Asegura que el placeholder sea visible */
+}
+
+/* Estilos del modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #27ae60; /* Verde */
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilos del spinner */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #0099ff; /* Azul */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

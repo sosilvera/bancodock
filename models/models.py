@@ -70,8 +70,11 @@ class SimulacionResponse(BaseModel):
     valorCuota: float
 
 class PaymentSolicitud(BaseModel):
+    idUsuario: int
+    alias: str
     monto: float
     formaPago: str
+    moneda: str
 
 class PaymentResponse(BaseModel):
     estado: str

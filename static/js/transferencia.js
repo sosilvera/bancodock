@@ -1,5 +1,9 @@
+const baseUrl = window.location.origin;
+const apiUrl =  `${baseUrl}/elegion`;
+
 document.addEventListener('DOMContentLoaded', () => {
     const transferForm = document.getElementById('transfer-form');
+    const successModal = document.getElementById('success-modal')
 
     transferForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -11,16 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const userId = localStorage.getItem('idCliente');
 
         try {
-            const response = await fetch(`${apiUrl}/transferir`, {
+            const response = await fetch(`${apiUrl}/doPayment/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userId,
-                    currency,
-                    amount,
-                    alias
+                    "idUsuario": userId,
+                    "moneda": currency,
+                    "monto": amount,
+                    "alias": alias,
+                    "formaPago": "Debito"
                 })
             });
 
@@ -29,11 +34,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
-            alert('Transferencia realizada con éxito');
-            // Redirigir o actualizar la página según sea necesario
+            // Mostrar el modal de éxito
+            successModal.style.display = 'flex';
+
+            // Esperar 10 segundos y luego redirigir
+            setTimeout(() => {
+                window.location.href = `${apiUrl}/account`;
+            }, 5000); // 10 segundos
+
         } catch (error) {
             console.error('Error:', error);
             alert('Hubo un error al realizar la transferencia');
         }
     });
+});
+
+document.querySelector('.menu-icon').addEventListener('click', () =>{
+    window.location.href = `${apiUrl}/account`;
+})
+
+// Handle logout
+document.getElementById('logout-button').addEventListener('click', () => {
+    fetch('/api/logout', { method: 'POST' })
+        .then(() => {
+            localStorage.clear()
+            window.location.href = `${apiUrl}`;
+        })
+        .catch(err => console.error('Error logging out:', err));
 });

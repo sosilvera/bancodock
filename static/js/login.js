@@ -25,13 +25,9 @@ document.getElementById('login-button').addEventListener('click', async () => {
         });
 
         data = await response.json();
-        console.log(data)
-        // Generar un hash del JSON (Base64)
-        const jsonString = JSON.stringify(data);
-        const hash = btoa(jsonString); // Codifica en Base64
-        console.log(hash)
-        // Redirigir a /account con el hash
-        window.location.href = `/elegion/account?idCliente=${hash}`;
+        
+        localStorage.setItem('idCliente', data.userId);
+        window.location.href = `/elegion/account`;
         
     } catch (error) {
         console.error('Error al realizar el inicio de sesión:', error);

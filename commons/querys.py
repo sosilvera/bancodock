@@ -2,7 +2,7 @@ from schema.models import (Cliente, SaldoCliente, TipoMoneda, MovimientosCliente
     TipoMovimiento, TarjetasCliente,MovimientosTarjeta,PeriodosTarjeta, TiposTarjeta, 
     TiposPrestamo, PrestamosCliente, Base
 )
-from sqlalchemy import create_engine, func, and_
+from sqlalchemy import create_engine, func, and_, update, insert
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import random
@@ -257,6 +257,93 @@ class Querys():
         self.session.add(tarjeta)
         self.session.commit()
         return "OK"
+
+    def tieneMonto(self, userId, monto, moneda):
+        result = self.querySaldo(userId)
+
+        if moneda == "$" and result["saldoPesos"] >= monto:
+            return True
+        elif moneda == "U$D" and result["saldoDolar"] >= monto:
+            return True
+        else:
+            return False
+    
+    def esCliente(self, alias):
+        queryResult = self.session.query(Cliente.idCliente).filter(Cliente.Usuario.like(alias)).all()
+        
+        try:
+            print(queryResult[0][0])
+            return {"idCliente": queryResult[0][0], "result": "True"}
+        except Exception as e:
+            return {"idCliente": -1, "result": "False"}
+    
+    def incrementarSaldo(self, idCliente, monto, moneda):
+        # Obtengo el saldo actual del cliente
+        saldo = self.querySaldo(idCliente)
+        
+        if moneda == "$":
+            tipoMoneda = 1
+            saldo = saldo["saldoPesos"]
+        else:
+            tipoMoneda = 2
+            saldo = saldo["saldoDolar"]
+
+        # hago un update sobre la tabla SaldoCliente
+        montoFinal = int(saldo) + int(monto)
+
+        # Crear la consulta de actualización
+        update_query = (
+            update(SaldoCliente)
+            .where(SaldoCliente.idCliente == idCliente, SaldoCliente.idTipoMoneda == tipoMoneda)
+            .values(Monto=montoFinal)
+        )
+
+        # Ejecutar la consulta
+        self.session.execute(update_query)
+        self.session.commit()
+
+        return True
+
+    def restarSaldo(self, userId, monto, moneda):
+        # Obtengo el saldo actual del cliente
+        saldo = self.querySaldo(userId)
+        
+        if moneda == "$":
+            tipoMoneda = 1
+            saldo = saldo["saldoPesos"]
+        else:
+            tipoMoneda = 2
+            saldo = saldo["saldoDolar"]
+
+        # hago un update sobre la tabla SaldoCliente
+        montoFinal = int(saldo) - int(monto)
+
+        # Crear la consulta de actualización
+        update_query = (
+            update(SaldoCliente)
+            .where(SaldoCliente.idCliente == userId, SaldoCliente.idTipoMoneda == tipoMoneda)
+            .values(Monto=montoFinal)
+        )
+
+        # Ejecutar la consulta
+        self.session.execute(update_query)
+        self.session.commit()
+
+        return True
+
+    def insertMovimiento(self, userId, userIdDestino, alias, monto, moneda):
+        # Crear la consulta de inserción
+        insert_query = insert(MovimientosCliente).values(
+            idCliente=userId,
+            idTipoMovimiento=2,
+            Monto=monto,
+            Descripcion=f'Transferencia a {alias}'
+        )
+
+        # Ejecutar la consulta
+        self.session.execute(insert_query)
+        self.session.commit()
+        return True
 
     # Cierro la sesion de la base
     def sessionClose(self):

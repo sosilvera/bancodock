@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List
 from models.models import (LoginRequest,
     SaldoResponse, Movimiento, MovimientosResponse,
@@ -63,6 +63,7 @@ async def solicitar_tarjeta(idCliente):
 async def solicitar_tarjeta(idCliente, tarjetaAprobada: TarjetaSolicitud):
     alta = q.insertTarjeta(idCliente, tarjetaAprobada)
     return alta
+
 @router.get("/simularPrestamo/{idCliente}")
 def simularPrestamo(idCliente, simulacion_solicitud: SimulacionSolicitud):
     # Lógica para realizar la simulación (simulado)
@@ -105,7 +106,36 @@ async def confirmar_prestamo(idCliente, simulacion_solicitud: SimulacionSolicitu
         result = "DENEGADO"
     return result
 
-@router.post("/doPayment/{idCliente}")
-async def do_payment(idCliente, payment_solicitud: PaymentSolicitud):
-    # Lógica para realizar el pago (simulado)
-    return t.payment_resultado
+@router.post("/doPayment/")
+async def do_payment(payment_solicitud: PaymentSolicitud):
+    ### Lógica para realizar el pago (simulado)
+    idUsuario = payment_solicitud.idUsuario
+    alias = payment_solicitud.alias
+    monto = payment_solicitud.monto
+    formaPago = payment_solicitud.formaPago
+    moneda = payment_solicitud.moneda
+
+    # Valido que el usuario tenga el monto
+    tieneMonto = q.tieneMonto(idUsuario, monto, moneda)
+
+    # Valido que el alias sea un cliente
+    esCliente = q.esCliente(alias)
+    
+    if tieneMonto and esCliente["result"]:
+        # Incremento el saldo del cliente destino
+        print("Incremento saldo")
+        q.incrementarSaldo(esCliente["idCliente"], monto, moneda)
+
+        print("Decremento saldo")
+        # Decremento el saldo del cliente actual
+        q.restarSaldo(idUsuario, monto, moneda)
+
+        print("Inserto movimiento")
+        # Guardo un movimiento en la tabla de movimientos
+        q.insertMovimiento(idUsuario, esCliente["idCliente"], alias, monto, moneda)
+        
+        return{"result": "OK"}
+    elif not tieneMonto:
+        return {"result": "Saldo insuficiente"}
+    elif not esCliente:
+        raise HTTPException(status_code=404, detail="Alias inexistente")

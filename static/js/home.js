@@ -3,27 +3,17 @@ import { renderTarjetasTabla } from './tablaTarjetas.js';
 
 const baseUrl = window.location.origin;
 const apiUrl =  `${baseUrl}/elegion`;
-// Parse URL query parameters
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
 
 // Load account balances
 document.addEventListener('DOMContentLoaded', () => {
-    const idCliente = getQueryParam('idCliente');
-    if (!idCliente) {
+    const userId = localStorage.getItem('idCliente');
+    if (!userId) {
         alert('No se encontró un ID de cliente. Redirigiendo a la página de login.');
         window.location.href = '/elegion/login';
         return;
     }
 
-    const jsonString = atob(idCliente);
-    const userData = JSON.parse(jsonString);
-
-    // Guardar idCliente en localStorage
-    localStorage.setItem('idCliente', userData.userId);
-    fetch(`${apiUrl}/getSaldo/${userData.userId}`)
+    fetch(`${apiUrl}/getSaldo/${userId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('saldo-pesos').textContent = `$ ${data.saldoPesos}`;
@@ -41,6 +31,7 @@ function navigateTo(route) {
 document.getElementById('logout-button').addEventListener('click', () => {
     fetch('/api/logout', { method: 'POST' })
         .then(() => {
+            localStorage.clear()
             window.location.href = `${apiUrl}`;
         })
         .catch(err => console.error('Error logging out:', err));
@@ -86,3 +77,11 @@ document.getElementById('tarjetas-button').addEventListener('click', async () =>
         console.error('Error al obtener tarjetas:', error);
     }
 });
+
+document.getElementById('trans-button').addEventListener('click', async() => {
+    try{
+        window.location.href = `/elegion/transfer`;
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+})
