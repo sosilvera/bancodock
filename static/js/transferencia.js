@@ -34,14 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
-            // Mostrar el modal de éxito
-            successModal.style.display = 'flex';
+            if(result["result"] == "OK"){
+                // Mostrar el modal de éxito
+                successModal.style.display = 'flex';
 
-            // Esperar 10 segundos y luego redirigir
-            setTimeout(() => {
-                window.location.href = `${apiUrl}/account`;
-            }, 5000); // 10 segundos
-
+                // Esperar 10 segundos y luego redirigir
+                setTimeout(() => {
+                    window.location.href = `${apiUrl}/account`;
+                }, 5000); // 10 segundos
+            }else{
+                alert(result["result"])
+            }
         } catch (error) {
             console.error('Error:', error);
             alert('Hubo un error al realizar la transferencia');
